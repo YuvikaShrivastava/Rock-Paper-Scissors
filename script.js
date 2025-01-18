@@ -20,19 +20,16 @@ const showWinner = (userWin) => {
         player_1++;
         player1_Score.innerText = player_1;
         msg.innerText = `Player 1 wins! ${player1choice} beats ${player2choice}`;
-        msg.style.backgroundColor = "#7871b8";
+        msg.style.backgroundColor = "#6a61d7";
     } else {
         player_2++;
         player2_Score.innerText = player_2;
         msg.innerText = `Player 2 wins! ${player2choice} beats ${player1choice}`;
-        msg.style.backgroundColor = "#d14479";
+        msg.style.backgroundColor = "#d44c79";
     }
 }
 
 const playGame = () => {
-    //console.log("Player 1 turn", player1choice);
-    //console.log("Player 2 turn", player2choice);
-
     if (player1choice === player2choice) {
         drawGame();
     } else {
@@ -52,16 +49,18 @@ choices.forEach((choice) => {
     choice.addEventListener("click", () => {
         if (!player1choice) {
             player1choice = choice.getAttribute("id");
-            console.log(`Player 1 chose: ${player1choice}`);
             msg.innerText = "Player 2's turn to choose";
             msg.style.backgroundColor = "#372f50";
         } else if (!player2choice) {
             player2choice = choice.getAttribute("id");
-            console.log(`Player 2 chose: ${player2choice}`);
             playGame();
             //reset choice for next
-            player1choice = null;
-            player2choice = null;
+            setTimeout(() => {
+                player1choice = null;
+                player2choice = null;
+                msg.innerText = "Player 1's turn to choose";
+                msg.style.backgroundColor = "#372f50";
+            }, 2000);
         }
     });
 });
