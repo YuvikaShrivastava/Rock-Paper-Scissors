@@ -54,13 +54,6 @@ choices.forEach((choice) => {
         } else if (!player2choice) {
             player2choice = choice.getAttribute("id");
             playGame();
-
-              resetHighlight();
-            choice.classList.add("selected");
-            setTimeout(resetHighlight, 500); // Briefly highlight, then reset
-        } else if (!player2choice) {
-            player2choice = choice.getAttribute("id");
-            playGame();
             
             //reset choice for next
             setTimeout(() => {
