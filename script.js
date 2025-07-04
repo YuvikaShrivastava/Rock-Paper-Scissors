@@ -10,32 +10,31 @@ const player2_Score = document.querySelector("#player2score");
 let player1choice = null;
 let player2choice = null;
 
-const micIcon = document.getElementById("micIcon");
-const errorMsg = document.getElementById("errorMsg");
-
-// 🔊 Add a short mic beep sound
-const micBeep = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
-
 const drawGame = () => {
     msg.innerText = "It's a tie!";
     msg.style.backgroundColor = "#372f50";
-};
+}
 
 const showWinner = (userWin) => {
     if (userWin) {
         player_1++;
         player1_Score.innerText = player_1;
-        msg.innerText = `Player 1 wins! ${player1choice} beats ${player2choice}`;
+        msg.innerText = Player 1 wins! ${player1choice }
+        beats ${player2choice };
         msg.style.backgroundColor = "#6a61d7";
     } else {
         player_2++;
         player2_Score.innerText = player_2;
-        msg.innerText = `Player 2 wins! ${player2choice} beats ${player1choice}`;
+        msg.innerText = Player 2 wins! ${player2choice }
+        beats ${player1choice };
         msg.style.backgroundColor = "#d44c79";
     }
-};
+}
 
 const playGame = () => {
+    //console.log("Player 1 turn", player1choice);
+    //console.log("Player 2 turn", player2choice);
+
     if (player1choice === player2choice) {
         drawGame();
     } else {
@@ -49,67 +48,20 @@ const playGame = () => {
         }
         showWinner(userWin);
     }
-};
+}
 
 choices.forEach((choice) => {
     choice.addEventListener("click", () => {
         if (!player1choice) {
             player1choice = choice.getAttribute("id");
-            const options = ["rock", "paper", "scissors"];
-            player2choice = options[Math.floor(Math.random() * 3)];
+            msg.innerText = "Player 2's turn to choose";
+            msg.style.backgroundColor = "#372f50";
+        } else if (!player2choice) {
+            player2choice = choice.getAttribute("id");
             playGame();
+            //reset choice for next
             player1choice = null;
             player2choice = null;
         }
     });
-});
-
-// 🎤 Speech Recognition for Player 1
-const recognition = new(window.SpeechRecognition || window.webkitSpeechRecognition)();
-recognition.continuous = false;
-recognition.lang = 'en-US';
-recognition.onstart = () => console.log("🎧 Listening started");
-recognition.onaudiostart = () => console.log("🔊 Audio input detected");
-recognition.onspeechend = () => {
-    console.log("🛑 Speech ended");
-    recognition.stop();
-};
-recognition.interimResults = false;
-recognition.maxAlternatives = 1;
-
-function startVoiceGame() {
-    console.log("🎙️ Starting voice recognition...");
-    micBeep.play(); // 🔊 play sound
-    recognition.start();
-    // Removed timeout to prevent premature stop
-    micIcon.style.visibility = "visible";
-    micIcon.classList.add("pulse");
-    errorMsg.style.display = "none";
-}
-
-recognition.onresult = (event) => {
-    console.log("🧠 onresult triggered");
-    micIcon.style.visibility = "hidden";
-    micIcon.classList.remove("pulse");
-        const spoken = event.results[0][0].transcript.toLowerCase().trim();
-    console.log("🎤 Heard:", spoken);
-    if (["rock", "paper", "scissors"].includes(spoken)) {
-        player1choice = spoken;
-        const options = ["rock", "paper", "scissors"];
-        player2choice = options[Math.floor(Math.random() * 3)];
-        playGame();
-        player1choice = null;
-        player2choice = null;
-    } else {
-        errorMsg.innerText = `Couldn't hear you properly. Try saying rock, paper, or scissors.`;
-        errorMsg.style.display = "block";
-    }
-};
-
-recognition.onerror = (event) => {
-    console.log("❌ Speech recognition error occurred:", event.error);
-    micIcon.style.visibility = "hidden";
-    micIcon.classList.remove("pulse");
-    errorMsg.innerText = `Couldn't hear you. Error: ${event.error}`;
-    errorMsg.style.display = "block";
-};
+}); 
