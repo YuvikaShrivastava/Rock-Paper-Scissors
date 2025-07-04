@@ -67,18 +67,27 @@ choices.forEach((choice) => {
 // 🎤 Speech Recognition for Player 1
 const recognition = new(window.SpeechRecognition || window.webkitSpeechRecognition)();
 recognition.lang = 'en-US';
+recognition.onstart = () => console.log("🎧 Listening started");
+recognition.onaudiostart = () => console.log("🔊 Audio input detected");
+recognition.onspeechend = () => {
+    console.log("🛑 Speech ended");
+    recognition.stop();
+};
 recognition.interimResults = false;
 recognition.maxAlternatives = 1;
 
 function startVoiceGame() {
+    console.log("🎙️ Starting voice recognition...");
     micBeep.play(); // 🔊 play sound
     recognition.start();
+    setTimeout(() => recognition.stop(), 5000); // safety timeout
     micIcon.style.visibility = "visible";
     micIcon.classList.add("pulse");
     errorMsg.style.display = "none";
 }
 
 recognition.onresult = (event) => {
+    console.log("🧠 onresult triggered");
     console.log("🧠 onresult triggered");
     micIcon.style.visibility = "hidden";
     micIcon.classList.remove("pulse");
@@ -98,6 +107,7 @@ recognition.onresult = (event) => {
 };
 
 recognition.onerror = () => {
+    console.log("❌ Speech recognition error occurred");
     micIcon.style.visibility = "hidden";
     micIcon.classList.remove("pulse");
     errorMsg.innerText = `Couldn't hear you. Please try again.`;
