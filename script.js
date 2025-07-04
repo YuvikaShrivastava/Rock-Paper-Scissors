@@ -79,10 +79,11 @@ function startVoiceGame() {
 }
 
 recognition.onresult = (event) => {
-    console.log("Heard:", spoken);
+    console.log("🧠 onresult triggered");
     micIcon.style.visibility = "hidden";
     micIcon.classList.remove("pulse");
-    const spoken = event.results[0][0].transcript.toLowerCase().trim();
+        const spoken = event.results[0][0].transcript.toLowerCase().trim();
+    console.log("🎤 Heard:", spoken);
     if (["rock", "paper", "scissors"].includes(spoken)) {
         player1choice = spoken;
         const options = ["rock", "paper", "scissors"];
