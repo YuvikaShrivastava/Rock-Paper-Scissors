@@ -79,50 +79,36 @@ recognition.maxAlternatives = 1;
 function startVoiceGame() {
     console.log("🎙️ Starting voice recognition...");
     micBeep.play(); // 🔊 play sound
+    recognition.start();
+    // Removed timeout to prevent premature stop
     micIcon.style.visibility = "visible";
     micIcon.classList.add("pulse");
     errorMsg.style.display = "none";
-    recognition.start();
 }
-
-// ✅ Setup events clearly
-recognition.onstart = () => console.log("🎧 Listening started");
-recognition.onaudiostart = () => console.log("🔊 Audio input detected");
-recognition.onspeechend = () => {
-    console.log("🛑 Speech ended");
-    recognition.stop();
-};
 
 recognition.onresult = (event) => {
     console.log("🧠 onresult triggered");
     micIcon.style.visibility = "hidden";
     micIcon.classList.remove("pulse");
-
-    const spoken = event.results[0][0].transcript.toLowerCase().trim();
+        const spoken = event.results[0][0].transcript.toLowerCase().trim();
     console.log("🎤 Heard:", spoken);
-
-    if (spoken.includes("rock")) player1choice = "rock";
-    else if (spoken.includes("paper")) player1choice = "paper";
-    else if (spoken.includes("scissor")) player1choice = "scissors";
-    else {
-        errorMsg.innerText = `Couldn't hear a valid move. Please try again.`;
+    if (["rock", "paper", "scissors"].includes(spoken)) {
+        player1choice = spoken;
+        const options = ["rock", "paper", "scissors"];
+        player2choice = options[Math.floor(Math.random() * 3)];
+        playGame();
+        player1choice = null;
+        player2choice = null;
+    } else {
+        errorMsg.innerText = `Couldn't hear you properly. Try saying rock, paper, or scissors.`;
         errorMsg.style.display = "block";
-        return;
     }
-
-    // Set random AI move
-    const options = ["rock", "paper", "scissors"];
-    player2choice = options[Math.floor(Math.random() * 3)];
-    playGame();
-    player1choice = null;
-    player2choice = null;
 };
 
-recognition.onerror = (event) => {
-    console.log("❌ Speech recognition error:", event.error);
+recognition.onerror = () => {
+    console.log("❌ Speech recognition error occurred");
     micIcon.style.visibility = "hidden";
     micIcon.classList.remove("pulse");
     errorMsg.innerText = `Couldn't hear you. Please try again.`;
     errorMsg.style.display = "block";
 };
-
