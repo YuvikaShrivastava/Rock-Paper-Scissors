@@ -66,6 +66,7 @@ choices.forEach((choice) => {
 
 // 🎤 Speech Recognition for Player 1
 const recognition = new(window.SpeechRecognition || window.webkitSpeechRecognition)();
+recognition.continuous = false;
 recognition.lang = 'en-US';
 recognition.onstart = () => console.log("🎧 Listening started");
 recognition.onaudiostart = () => console.log("🔊 Audio input detected");
@@ -105,10 +106,10 @@ recognition.onresult = (event) => {
     }
 };
 
-recognition.onerror = () => {
-    console.log("❌ Speech recognition error occurred");
+recognition.onerror = (event) => {
+    console.log("❌ Speech recognition error occurred:", event.error);
     micIcon.style.visibility = "hidden";
     micIcon.classList.remove("pulse");
-    errorMsg.innerText = `Couldn't hear you. Please try again.`;
+    errorMsg.innerText = `Couldn't hear you. Error: ${event.error}`;
     errorMsg.style.display = "block";
 };
