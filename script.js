@@ -19,14 +19,14 @@ const showWinner = (userWin) => {
     if (userWin) {
         player_1++;
         player1_Score.innerText = player_1;
-        msg.innerText = Player 1 wins! ${player1choice }
-        beats ${player2choice };
+        msg.innerText = `Player 1 wins! ${player1choice }
+        beats ${player2choice }`;
         msg.style.backgroundColor = "#6a61d7";
     } else {
         player_2++;
         player2_Score.innerText = player_2;
-        msg.innerText = Player 2 wins! ${player2choice }
-        beats ${player1choice };
+        msg.innerText = `Player 2 wins! ${player2choice }
+        beats ${player1choice }`;
         msg.style.backgroundColor = "#d44c79";
     }
 }
@@ -64,4 +64,4 @@ choices.forEach((choice) => {
             player2choice = null;
         }
     });
-}); 
+});
