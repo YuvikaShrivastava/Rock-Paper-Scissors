@@ -79,6 +79,7 @@ function startVoiceGame() {
 }
 
 recognition.onresult = (event) => {
+    console.log("Heard:", spoken);
     micIcon.style.visibility = "hidden";
     micIcon.classList.remove("pulse");
     const spoken = event.results[0][0].transcript.toLowerCase().trim();
